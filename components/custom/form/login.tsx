@@ -8,14 +8,12 @@ import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
-  FormLabel,
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { LoginFormSchema } from "@/lib/schemas";
+import { LoginFormSchema } from "@/lib/db/schemas";
 import { Lock, User } from "lucide-react";
 
 export function Login() {
@@ -30,6 +28,8 @@ export function Login() {
   function onSubmit(data: z.infer<typeof LoginFormSchema>) {
     console.log(data);
   }
+
+  const { isValid, isSubmitting } = form.formState;
 
   return (
     <Form {...form}>
@@ -57,13 +57,20 @@ export function Login() {
             <FormItem className="w-full relative">
               <Lock className="absolute top-4 left-3 size-6 text-muted-foreground" />
               <FormControl>
-                <Input placeholder="Password" {...field} type="password" className="pl-10" />
+                <Input
+                  placeholder="Password"
+                  {...field}
+                  type="password"
+                  className="pl-10"
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
-        <Button type="submit">Login Now</Button>
+        <Button type="submit" disabled={!isValid || isSubmitting}>
+          {isSubmitting ? "Logging in..." : "Login Now"}
+        </Button>
       </form>
     </Form>
   );

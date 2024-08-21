@@ -4,11 +4,70 @@
 // Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
+
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model Admin {
+  id         String   @unique @default(uuid())
+  name       String
+  lastName   String
+  picture    String
+  username   String   @unique
+  pwd        String   @unique
+  created_at DateTime
+  updated_at DateTime
+
+  User User[]
+}
+
+model User {
+  id       String @unique @default(uuid())
+  name     String
+  lastName String
+  picture  String
+  username String @unique
+  pwd      String @unique
+
+  visits Visit[]
+
+  adminId String
+  admin   Admin  @relation(fields: [adminId], references: [id], onDelete: Cascade)
+
+  created_at DateTime
+  updated_at DateTime
+}
+
+model Visit {
+  id          String   @unique @default(uuid())
+  name        String
+  lastName    String
+  entering_at DateTime
+  leaving_at  DateTime
+
+  reasonId String
+  reason   Reason @relation(fields: [reasonId], references: [id], onDelete: Cascade)
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  created_at DateTime
+  updated_at DateTime
+}
+
+model Reason {
+  id    String @unique @default(uuid())
+  label String @unique
+
+  visits Visit[]
+
+  created_at DateTime
+  updated_at DateTime
 }
