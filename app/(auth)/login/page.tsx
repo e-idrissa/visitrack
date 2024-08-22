@@ -1,7 +1,7 @@
+import { Login } from "@/components/custom/form/login";
 import Link from "next/link";
-import { Login } from "./form/login";
 
-const LoginForm = () => {
+const LoginPage = () => {
   return (
     <div className="flex flex-col space-y-6 items-center">
       <div className="flex flex-col space-y-2 items-center">
@@ -19,4 +19,4 @@ const LoginForm = () => {
   );
 };
 
-export default LoginForm;
+export default LoginPage;

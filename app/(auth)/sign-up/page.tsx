@@ -1,7 +1,7 @@
+import { SignUp } from "@/components/custom/form/sign-up";
 import Link from "next/link";
-import { Login } from "./form/login";
 
-const SignUpForm = () => {
+const SignUpPage = () => {
   return (
     <div className="flex flex-col space-y-6 items-center">
       <div className="flex flex-col space-y-2 items-center">
@@ -10,13 +10,13 @@ const SignUpForm = () => {
           Create your authentication credentials
         </p>
       </div>
-      <Login />
+      <SignUp />
       <div className="text center text-primary">
         Already have an account ?
-        <Link href="/" className="text-[#9181f4]"> Login</Link>
+        <Link href="/login" className="text-[#9181f4]"> Login</Link>
       </div>
     </div>
   );
 };
 
-export default SignUpForm;
+export default SignUpPage;
