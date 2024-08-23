@@ -17,7 +17,7 @@ export default function RootLayout({
     <div className="w-full h-full relative">
       <div className="w-full min-h-1/4 relative overflow-hidden bg-pattern">
         <div className="container">
-          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-between py-5">
             <div className="flex items-center gap-x-2">
               <Image src="/logo.png" alt="logo" width={50} height={50} />
               <span className="font-bold text-white text-xl">VisiTrack</span>
@@ -27,7 +27,7 @@ export default function RootLayout({
               <User />
             </div>
           </div>
-          <div className="font-bold text-4xl pt-16 pb-8 flex items-center">
+          <div className="font-bold text-4xl pt-10 pb-8 flex items-center">
             <span className="text-white">Welcome back</span>
             <span>👋</span>
           </div>
@@ -35,10 +35,14 @@ export default function RootLayout({
             {insights.map(({ label, count, icon}) => (
                 <Insight label={label} count={count} icon={icon}/>
             ))}
-            </div>
+          </div>
         </div>
       </div>
-      {children}
+      <div className="absolute flex items-center w-full -mt-48 z-10">
+        <div className="container bg-white h-[38rem] rounded-t-2xl px-8 py-6 pb-0 border">
+          {children}
+        </div>
+      </div>
     </div>
   );
 }
