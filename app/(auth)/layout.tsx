@@ -8,9 +8,11 @@ export default function AuthLayout({
   return (
     <main className="grid grid-cols-1 md:grid-cols-2">
       <div className="col-span-1 flex items-center justify-center pt-16 md:pt-0">
-        {children}
+        <div className="w-1/3 flex items-center">
+          {children}
+        </div>
       </div>
-      <div className="relative hidden md:flex bg-gradient-to-tr from-[#9181fa] to-[#5038ed] min-h-screen items-center justify-center w-full h-full">
+      <div className="relative hidden md:flex bg-pattern min-h-screen items-center justify-center w-full h-full">
         <div className="bg-white/20 border border-white/50 rounded-2xl p-8 text-xl lg:text-2xl xl:text-3xl font-bold text-white pr-32 xl:pr-64 pb-72">
           <p>
             Very good
