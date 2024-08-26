@@ -33,13 +33,13 @@ export default function RootLayout({
           </div>
           <div className="pb-56 flex gap-x-3">
             {insights.map(({ label, count, icon}) => (
-                <Insight label={label} count={count} icon={icon}/>
+                <Insight key={label} label={label} count={count} icon={icon}/>
             ))}
           </div>
         </div>
       </div>
       <div className="absolute flex items-center w-full -mt-48 z-10">
-        <div className="container bg-white h-[38rem] rounded-t-2xl px-8 py-6 pb-0 border">
+        <div className="container bg-white h-[40rem] rounded-t-2xl px-8 py-6">
           {children}
         </div>
       </div>
