@@ -10,12 +10,13 @@ import {
 } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import { Edit3 } from "lucide-react"
 
 export function EditVisit() {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button>+ New</Button>
+      <Button variant="edit"><Edit3 className="size-4 mr-1"/>Edit</Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>

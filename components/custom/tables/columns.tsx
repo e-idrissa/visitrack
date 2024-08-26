@@ -1,7 +1,7 @@
 "use client"
 
 import { ColumnDef } from "@tanstack/react-table"
-import { CheckCircleIcon, Edit3, MoreHorizontal, ArrowUpDown } from "lucide-react"
+import { CheckCircleIcon, Edit3, MoreHorizontal, ArrowUpDown, Trash2 } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 import {
@@ -102,13 +102,13 @@ export const columns: ColumnDef<Visit>[] = [
     size: 70
   },
   {
-    id: "actions",
+    id: "edit",
     cell: ({ row }) => {
       const payment = row.original
  
       return (
         <div className="flex justify-end">
-          <Button variant="end"><CheckCircleIcon className="size-4 mr-1"/> End</Button>
+          <EditVisit />
         </div>
       )
     },
@@ -129,14 +129,9 @@ export const columns: ColumnDef<Visit>[] = [
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(payment.id)}
-            >
-              Copy payment ID
-            </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>View customer</DropdownMenuItem>
-            <DropdownMenuItem>View payment details</DropdownMenuItem>
+            <DropdownMenuItem><Button variant="end"><CheckCircleIcon className="size-4 mr-1"/>End</Button></DropdownMenuItem>
+            <DropdownMenuItem><Button variant="destructive"><Trash2 className="size-4 mr-1"/>Delete</Button></DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       )
