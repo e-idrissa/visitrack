@@ -29,7 +29,7 @@ export function EditVisit() {
       <DialogTrigger asChild>
       <Button variant="edit"><Edit3 className="size-4 mr-1"/>Edit</Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="sm:max-w-[30rem]">
         <DialogHeader>
           <DialogTitle>Edit Visit</DialogTitle>
         </DialogHeader>

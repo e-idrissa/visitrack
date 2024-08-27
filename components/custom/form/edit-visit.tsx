@@ -18,15 +18,15 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select"
+} from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { EditVisitFormSchema } from "@/lib/db/schemas";
 import { Visit } from "@prisma/client";
 import { Label } from "@/components/ui/label";
 
 type Props = {
-  visit: Visit
-}
+  visit: Visit;
+};
 
 export function EditVisitForm({ visit }: Props) {
   const form = useForm<z.infer<typeof EditVisitFormSchema>>({
@@ -53,17 +53,23 @@ export function EditVisitForm({ visit }: Props) {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="w-full space-y-4 flex flex-col items-center"
+        className="w-full space-y-6 flex flex-col items-center"
       >
         <div className="flex items-center space-x-6">
           <FormField
             control={form.control}
             name="name"
             render={({ field }) => (
-              <FormItem className="w-full relative h-[3.3rem] flex items-end border border-[#E1E1E1] bg-[#F0EDFF] rounded-md">
-                <Label className="absolute top-2 left-3 text-muted-foreground text-[#705fcc]">Name</Label>
-                <FormControl className="">
-                  <Input placeholder="Name" {...field} className="border-transparent"/>
+              <FormItem className="w-full relative border border-[#E1E1E1] bg-[#F0EDFF] rounded-md">
+                <Label className="absolute text-[#705fcc] left-3 py-2 text-xs">
+                  Name
+                </Label>
+                <FormControl className="pt-[1.75rem] pb-5">
+                  <Input
+                    placeholder="Name"
+                    {...field}
+                    className="border-transparent"
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -73,10 +79,16 @@ export function EditVisitForm({ visit }: Props) {
             control={form.control}
             name="lastname"
             render={({ field }) => (
-              <FormItem className="w-full relative h-[3.3rem] flex items-end border border-[#E1E1E1] bg-[#F0EDFF] rounded-md">
-                <Label className="absolute top-2 left-3 text-muted-foreground text-[#705fcc]">Last Name</Label>
-                <FormControl className="">
-                  <Input placeholder="Last Name" {...field} className="border-transparent"/>
+              <FormItem className="w-full relative border border-[#E1E1E1] bg-[#F0EDFF] rounded-md">
+                <Label className="absolute text-[#705fcc] left-3 py-2 text-xs">
+                  Last Name
+                </Label>
+                <FormControl className="pt-[1.75rem] pb-5">
+                  <Input
+                    placeholder="Last Name"
+                    {...field}
+                    className="border-transparent"
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -88,11 +100,16 @@ export function EditVisitForm({ visit }: Props) {
             control={form.control}
             name="reason"
             render={({ field }) => (
-              <FormItem className="w-full relative">
-                <Select onValueChange={field.onChange} defaultValue={field.value}>
-                    <Label className="absolute top-4 left-3 text-muted-foreground text-[#705fcc]">Reason</Label>
+              <FormItem className="w-full relative border border-[#E1E1E1] bg-[#F0EDFF] rounded-md">
+                <Label className="absolute text-[#705fcc] left-3 py-2 text-xs">
+                  Reason
+                </Label>
+                <Select
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                >
                   <FormControl>
-                    <SelectTrigger className="h-[3.3rem] items-end">
+                    <SelectTrigger className="border-transparent pt-[1.75rem] pb-5">
                       <SelectValue placeholder="Reason" />
                     </SelectTrigger>
                   </FormControl>
@@ -109,20 +126,115 @@ export function EditVisitForm({ visit }: Props) {
               </FormItem>
             )}
           />
+        </div>
+        <div className="flex items-center space-x-6 w-full">
+          <div className="flex relative items-center w-[70%] border border-[#E1E1E1] bg-[#F0EDFF] rounded-md">
+            <Label className="absolute text-[#705fcc] left-3 py-2 top-0 text-xs">
+              Started At
+            </Label>
+            <div className="w-it flex space-x-2">
+              <div className="flex items-center w-fit pt-4">
+                <FormField
+                  control={form.control}
+                  name="startingHour"
+                  render={({ field }) => (
+                    <FormItem className="w-fit rounded-md flex items-center justify-center">
+                      <FormControl className="">
+                        <Input
+                          placeholder="HH"
+                          {...field}
+                          className="border-transparent text-center w-[3.2rem] px-0 pl-3 pr-1"
+                          type="number"
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <span className="text-primary">:</span>
+                <FormField
+                  control={form.control}
+                  name="startingMin"
+                  render={({ field }) => (
+                    <FormItem className="w-fit rounded-md flex items-center justify-center">
+                      <FormControl className="">
+                        <Input
+                          placeholder="MM"
+                          {...field}
+                          className="border-transparent text-center w-[3.2rem] px-0 pl-3 pr-1"
+                          type="number"
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+            </div>
+          </div>
+          <div className="flex relative items-center w-[70%] border border-[#E1E1E1] bg-[#F0EDFF] rounded-md">
+            <Label className="absolute text-[#705fcc] left-3 py-2 top-0 text-xs">
+              Ended At
+            </Label>
+            <div className="w-it flex space-x-2">
+              <div className="flex items-center w-fit pt-4">
+                <FormField
+                  control={form.control}
+                  name="endingHour"
+                  render={({ field }) => (
+                    <FormItem className="w-fit rounded-md flex items-center justify-center">
+                      <FormControl className="">
+                        <Input
+                          placeholder="HH"
+                          {...field}
+                          className="border-transparent text-center w-[3.2rem] px-0 pl-3 pr-1"
+                          type="number"
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <span className="text-primary">:</span>
+                <FormField
+                  control={form.control}
+                  name="endingMin"
+                  render={({ field }) => (
+                    <FormItem className="w-fit rounded-md flex items-center justify-center">
+                      <FormControl className="">
+                        <Input
+                          placeholder="MM"
+                          {...field}
+                          className="border-transparent text-center w-[3.2rem] px-0 pl-3 pr-1"
+                          type="number"
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+            </div>
+          </div>
           <FormField
             control={form.control}
             name="status"
             render={({ field }) => (
-              <FormItem className="w-4/5 relative">
-                <Select onValueChange={field.onChange} defaultValue={field.value}>
-                    <Label className="absolute top-4 left-3 text-muted-foreground text-[#705fcc]">Status</Label>
+              <FormItem className="w-full relative border border-[#E1E1E1] bg-[#F0EDFF] rounded-md">
+                <Label className="absolute text-[#705fcc] left-3 py-2 text-xs">
+                  Status
+                </Label>
+                <Select
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                >
                   <FormControl>
-                    <SelectTrigger className="h-[3.3rem] items-end">
+                    <SelectTrigger className="border-transparent pt-[1.75rem] pb-5">
                       <SelectValue placeholder="Status" />
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    <SelectItem value="inProgress">In progress</SelectItem>
+                    <SelectItem value="inProgress">In Progress</SelectItem>
                     <SelectItem value="ended">Ended</SelectItem>
                   </SelectContent>
                 </Select>
@@ -131,35 +243,11 @@ export function EditVisitForm({ visit }: Props) {
             )}
           />
         </div>
-        <div className="flex items-center space-x-6">
-          <FormField
-            control={form.control}
-            name="name"
-            render={({ field }) => (
-              <FormItem className="w-full relative h-[3.3rem] flex items-end border border-[#E1E1E1] bg-[#F0EDFF] rounded-md">
-                <Label className="absolute top-2 left-3 text-muted-foreground text-[#705fcc]">Name</Label>
-                <FormControl className="">
-                  <Input placeholder="Name" {...field} className="border-transparent"/>
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="lastname"
-            render={({ field }) => (
-              <FormItem className="w-full relative h-[3.3rem] flex items-end border border-[#E1E1E1] bg-[#F0EDFF] rounded-md">
-                <Label className="absolute top-2 left-3 text-muted-foreground text-[#705fcc]">Last Name</Label>
-                <FormControl className="">
-                  <Input placeholder="Last Name" {...field} className="border-transparent"/>
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-        </div>
-        <Button type="submit" disabled={!isValid || isSubmitting} className="self-end">
+        <Button
+          type="submit"
+          disabled={!isValid || isSubmitting}
+          className="self-end"
+        >
           {isSubmitting ? "Submitting..." : "Submit"}
         </Button>
       </form>
