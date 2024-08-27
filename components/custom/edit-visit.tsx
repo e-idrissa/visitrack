@@ -2,17 +2,28 @@ import { Button } from "@/components/ui/button"
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Edit3 } from "lucide-react"
+import { Edit3, Upload } from "lucide-react"
+import { EditVisitForm } from "./form/edit-visit"
+import { dateFormat } from "@/lib/utils"
 
 export function EditVisit() {
+
+  const visit = {
+    id: 'visit1',
+    name: 'John',
+    lastName: 'Doe',
+    status: true,
+    reason: "infos",
+    entering_at: new Date('2023-01-01  23:49:59'),
+    leaving_at: new Date('2023-01-02  23:59:59'),
+    userId: "1234",
+    created_at: new Date(),
+    updated_at: new Date(),
+  }
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -20,36 +31,9 @@ export function EditVisit() {
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Edit profile</DialogTitle>
-          <DialogDescription>
-            Make changes to your profile here. Click save when you&apos;re done.
-          </DialogDescription>
+          <DialogTitle>Edit Visit</DialogTitle>
         </DialogHeader>
-        <div className="grid gap-4 py-4">
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="name" className="text-right">
-              Name
-            </Label>
-            <Input
-              id="name"
-              defaultValue="Pedro Duarte"
-              className="col-span-3"
-            />
-          </div>
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="username" className="text-right">
-              Username
-            </Label>
-            <Input
-              id="username"
-              defaultValue="@peduarte"
-              className="col-span-3"
-            />
-          </div>
-        </div>
-        <DialogFooter>
-          <Button type="submit">Save changes</Button>
-        </DialogFooter>
+        <EditVisitForm visit={visit}/>
       </DialogContent>
     </Dialog>
   )

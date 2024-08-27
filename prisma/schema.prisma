@@ -4,7 +4,6 @@
 // Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -32,8 +31,9 @@ model Visit {
   lastName    String
   entering_at DateTime
   leaving_at  DateTime
-  reason String
-  
+  status      Boolean
+  reason      String
+
   userId String
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
