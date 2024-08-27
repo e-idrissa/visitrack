@@ -9,7 +9,7 @@ const AllVisits = () => {
   
   return (
     <main className="text-primary">
-      <div className="flex items-center justify-between mb-4">
+      <div className="flex items-center justify-between mb-2">
         <h2 className="text-xl font-medium">All Visits</h2>
       </div>
       <DataTable columns={columns} data={visits} />
