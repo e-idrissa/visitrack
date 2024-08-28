@@ -31,7 +31,7 @@ export default async function Layout({ children, params }: Props) {
               <span className="font-bold text-white text-xl">VisiTrack</span>
             </div>
             <div className="flex items-center gap-x-4">
-              <NavList />
+              <NavList username={user.username}/>
               <User user={user}/>
             </div>
           </div>
