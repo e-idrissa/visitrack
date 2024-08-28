@@ -33,13 +33,13 @@ export function EditVisitForm({ visit }: Props) {
     resolver: zodResolver(EditVisitFormSchema),
     defaultValues: {
       name: visit.name,
-      lastname: visit.lastName,
+      lastname: visit.lastname,
       reason: visit.reason,
       status: visit.status ? "inProgress" : "ended",
       startingHour: visit.entering_at.getHours(),
       startingMin: visit.entering_at.getMinutes(),
-      endingHour: visit.leaving_at.getHours(),
-      endingMin: visit.leaving_at.getMinutes(),
+      endingHour: visit.leaving_at!.getHours(),
+      endingMin: visit.leaving_at!.getMinutes(),
     },
   });
 
