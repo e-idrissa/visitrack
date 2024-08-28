@@ -22,7 +22,16 @@ export async function POST(req: Request) {
       return new NextResponse("Incorrect password", { status: 401 });
     };
 
-    return NextResponse.json(user);
+    const result = await db.user.update({
+      where: {
+        username: user.username,
+      },
+      data: {
+        isLogged: true
+      }
+    })
+
+    return NextResponse.json(result);
   } catch (error) {
     console.error("[USER]", error);
     return new NextResponse("Internal server error", { status: 500 });

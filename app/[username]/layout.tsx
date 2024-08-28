@@ -33,7 +33,7 @@ export default async function Layout({ children, params }: Props) {
             </div>
             <div className="flex items-center gap-x-4">
               <NavList />
-              <User />
+              <User user={user}/>
             </div>
           </div>
           <div className="font-bold text-4xl pt-10 pb-8 flex items-center">
