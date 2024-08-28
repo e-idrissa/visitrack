@@ -129,7 +129,7 @@ export const columns: ColumnDef<Visit>[] = [
 
       return (
         <div className="flex justify-end">
-          <EditVisit />
+          <EditVisit visit={row.original}/>
         </div>
       );
     },

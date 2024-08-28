@@ -6,24 +6,16 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog"
-import { Edit3, Upload } from "lucide-react"
+import { Edit3 } from "lucide-react"
 import { EditVisitForm } from "./form/edit-visit"
-import { dateFormat } from "@/lib/utils"
+import { Visit } from "@prisma/client"
 
-export function EditVisit() {
+type Props = {
+  visit: Visit
+}
 
-  const visit = {
-    id: 'visit1',
-    name: 'John',
-    lastName: 'Doe',
-    status: true,
-    reason: "infos",
-    entering_at: new Date('2023-01-01  23:49:59'),
-    leaving_at: new Date('2023-01-02  23:59:59'),
-    userId: "1234",
-    created_at: new Date(),
-    updated_at: new Date(),
-  }
+export function EditVisit({ visit }: Props) {
+
   return (
     <Dialog>
       <DialogTrigger asChild>
