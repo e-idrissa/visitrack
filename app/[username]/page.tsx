@@ -1,9 +1,8 @@
 import { NewVisit } from "@/components/custom/new-visit";
 import { columns } from "@/components/custom/tables/columns";
 import { DataTable } from "@/components/custom/tables/data-table";
-import { visitsList } from "@/data";
 import { GetUser } from "@/lib/actions/user.actions";
-import { GetVisits } from "@/lib/actions/visit.actions";
+import { GetDailyVisits } from "@/lib/actions/visit.actions";
 
 type Props = {
   params: {
@@ -13,7 +12,7 @@ type Props = {
 export default async function Home({ params }: Props) {
 
   const user = await GetUser(params.username)
-  const visits = await GetVisits();
+  const visits = await GetDailyVisits();
 
   return (
     <main className="text-primary">
