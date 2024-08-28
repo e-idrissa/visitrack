@@ -33,15 +33,15 @@ export function Login() {
     try {
       const res = await axios.post(`api/users/${data.username}`, data);
       if (res.status === 200) {
-        toast("Logged in successfully.")
+        toast.success("Logged in successfully.")
         router.push(`/${res.data.username}`)
       };
       if (res.status === 404) {
-        toast("User Not Found")
+        toast.error("User Not Found")
         router.refresh()
       };
       if (res.status === 401) {
-        toast("Incorrect Password")
+        toast.error("Incorrect Password")
         router.refresh()
       };
     } catch (error) {

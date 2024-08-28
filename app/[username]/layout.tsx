@@ -14,7 +14,6 @@ type Props = {
 export default async function Layout({ children, params }: Props) {
   const username = params.username
   const user = await GetUser(username)
-  console.log(user)
   
   if (!user || user.isLogged === false) return redirect("/login")
 

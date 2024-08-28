@@ -29,10 +29,10 @@ model User {
 model Visit {
   id          String   @unique @default(uuid())
   name        String
-  lastName    String
-  entering_at DateTime
-  leaving_at  DateTime
-  status      Boolean
+  lastname    String
+  entering_at DateTime @default(now())
+  leaving_at  DateTime? 
+  status      Boolean @default(true)
   reason      String
 
   userId String

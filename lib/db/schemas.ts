@@ -18,7 +18,7 @@ export const NewVisitFormSchema = z.object({
   }),
   reason: z.string().min(3, {
     message: "Reason must be at least 3 characters.",
-  })
+  }),
 });
 
 export const EditVisitFormSchema = z.object({

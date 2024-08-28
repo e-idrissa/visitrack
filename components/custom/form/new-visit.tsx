@@ -18,12 +18,20 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select"
+} from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { NewVisitFormSchema } from "@/lib/db/schemas";
-import { cn } from "@/lib/utils";
+import { useRouter } from "next/navigation";
+import axios from "axios";
+import { toast } from "sonner";
 
-export function NewVisitForm() {
+type Props = {
+  username: string;
+};
+
+export function NewVisitForm({ username }: Props) {
+  const router = useRouter();
+
   const form = useForm<z.infer<typeof NewVisitFormSchema>>({
     resolver: zodResolver(NewVisitFormSchema),
     defaultValues: {
@@ -33,8 +41,17 @@ export function NewVisitForm() {
     },
   });
 
-  function onSubmit(data: z.infer<typeof NewVisitFormSchema>) {
-    console.log(data);
+  async function onSubmit(data: z.infer<typeof NewVisitFormSchema>) {
+    try {
+      const res = await axios.post("api/visits", { data, username });
+      if (res.status === 200) {
+        toast.success("Visit created successfully");
+        router.refresh();
+      }
+    } catch (error) {
+      toast.error("Something went wrong");
+      router.refresh();
+    }
   }
 
   const { isValid, isSubmitting } = form.formState;
@@ -64,10 +81,7 @@ export function NewVisitForm() {
             render={({ field }) => (
               <FormItem className="w-full relative">
                 <FormControl>
-                  <Input
-                    placeholder="Last Name"
-                    {...field}
-                  />
+                  <Input placeholder="Last Name" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -82,7 +96,7 @@ export function NewVisitForm() {
               <Select onValueChange={field.onChange} defaultValue={field.value}>
                 <FormControl>
                   <SelectTrigger>
-                    <SelectValue placeholder="Reason"/>
+                    <SelectValue placeholder="Reason" />
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
@@ -98,7 +112,11 @@ export function NewVisitForm() {
             </FormItem>
           )}
         />
-        <Button type="submit" disabled={!isValid || isSubmitting} className="self-end">
+        <Button
+          type="submit"
+          disabled={!isValid || isSubmitting}
+          className="self-end"
+        >
           {isSubmitting ? "Submitting..." : "Submit"}
         </Button>
       </form>
