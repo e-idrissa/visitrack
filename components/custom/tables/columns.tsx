@@ -1,9 +1,15 @@
-"use client"
+"use client";
 
-import { ColumnDef } from "@tanstack/react-table"
-import { CheckCircleIcon, Edit3, MoreHorizontal, ArrowUpDown, Trash2 } from "lucide-react"
+import { ColumnDef } from "@tanstack/react-table";
+import {
+  CheckCircleIcon,
+  Edit3,
+  MoreHorizontal,
+  ArrowUpDown,
+  Trash2,
+} from "lucide-react";
 
-import { Button } from "@/components/ui/button"
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -11,20 +17,12 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import { Badge } from "@/components/ui/badge"
-import { Checkbox } from "@/components/ui/checkbox"
-import { EditVisit } from "../edit-visit"
-import { cn } from "@/lib/utils"
-
-type Visit = {
-  id: string;
-  name: string;
-  lastname: string;
-  status: boolean;
-  enteredAt: string;
-  leftAt: string;
-};
+} from "@/components/ui/dropdown-menu";
+import { Badge } from "@/components/ui/badge";
+import { Checkbox } from "@/components/ui/checkbox";
+import { EditVisit } from "../edit-visit";
+import { cn } from "@/lib/utils";
+import { Visit } from "@prisma/client";
 
 export const columns: ColumnDef<Visit>[] = [
   {
@@ -47,7 +45,7 @@ export const columns: ColumnDef<Visit>[] = [
       />
     ),
     enableSorting: true,
-    size: 10
+    size: 10,
   },
   {
     accessorKey: "name",
@@ -75,50 +73,73 @@ export const columns: ColumnDef<Visit>[] = [
           Status
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
-      )
+      );
     },
     cell: ({ row }) => {
-      const status = row.getValue("status")
-      const formatted = status ? 'in progress' : 'ended'
- 
-      return <div className="text-left pl-4 capitalize font-medium"><Badge className={cn('font-medium flex items-center justify-center w-fit', !status ? "bg-emerald-600/30 text-emerald-600" : "bg-[#9181f4]/30 text-[#9181f4]")}>{formatted}</Badge></div>
+      const status = row.getValue("status");
+      const formatted = status ? "in progress" : "ended";
+
+      return (
+        <div className="text-left pl-4 capitalize font-medium">
+          <Badge
+            className={cn(
+              "font-medium flex items-center justify-center w-fit",
+              !status
+                ? "bg-emerald-600/30 text-emerald-600"
+                : "bg-[#9181f4]/30 text-[#9181f4]"
+            )}
+          >
+            {formatted}
+          </Badge>
+        </div>
+      );
     },
-    size: 70
+    size: 70,
   },
   {
-    accessorKey: "enteredAt",
+    accessorKey: "entering_at",
     header: () => <div className="text-center">Enter At</div>,
-    cell: ({ row }) => (
-      <div className="text-center font-medium">{row.getValue("enteredAt")}</div>
-    ),
-    size: 70
+    cell: ({ row }) => {
+      const hour = new Date(row.getValue("entering_at")).getHours();
+      const min = new Date(row.getValue("entering_at")).getMinutes();
+      const formatted = `${hour}:${min}`;
+      return (
+        <div className="text-center font-medium">{formatted}</div>
+      );
+    },
+    size: 70,
   },
   {
-    accessorKey: "leftAt",
+    accessorKey: "leaving_at",
     header: () => <div className="text-center">Exit At</div>,
-    cell: ({ row }) => (
-      <div className="text-center font-medium">{row.getValue("leftAt")}</div>
-    ),
-    size: 70
+    cell: ({ row }) => {
+      const hour = new Date(row.getValue("leaving_at")).getHours();
+      const min = new Date(row.getValue("leaving_at")).getMinutes();
+      const formatted = `${hour}:${min}`;
+      return (
+        <div className="text-center font-medium">{row.getValue("leaving_at") === null ? "--:--" : formatted}</div>
+      );
+    },
+    size: 70,
   },
   {
     id: "edit",
     cell: ({ row }) => {
-      const payment = row.original
- 
+      const payment = row.original;
+
       return (
         <div className="flex justify-end">
           <EditVisit />
         </div>
-      )
+      );
     },
-    maxSize: 20
+    maxSize: 20,
   },
   {
     id: "actions",
     cell: ({ row }) => {
-      const payment = row.original
- 
+      const payment = row.original;
+
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -130,12 +151,22 @@ export const columns: ColumnDef<Visit>[] = [
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuItem><Button variant="end"><CheckCircleIcon className="size-4 mr-1"/>End</Button></DropdownMenuItem>
-            <DropdownMenuItem><Button variant="destructive"><Trash2 className="size-4 mr-1"/>Delete</Button></DropdownMenuItem>
+            <DropdownMenuItem>
+              <Button variant="end">
+                <CheckCircleIcon className="size-4 mr-1" />
+                End
+              </Button>
+            </DropdownMenuItem>
+            <DropdownMenuItem>
+              <Button variant="destructive">
+                <Trash2 className="size-4 mr-1" />
+                Delete
+              </Button>
+            </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
-      )
+      );
     },
-    size: 50
+    size: 50,
   },
-]
+];

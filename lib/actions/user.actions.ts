@@ -1,7 +1,5 @@
 import { db } from "../db/prisma";
 
-import bcrypt from "bcrypt";
-
 export async function GetUser(username: string) {
   try {
     const user = await db.user.findFirst({

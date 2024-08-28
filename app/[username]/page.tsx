@@ -3,6 +3,7 @@ import { columns } from "@/components/custom/tables/columns";
 import { DataTable } from "@/components/custom/tables/data-table";
 import { visitsList } from "@/data";
 import { GetUser } from "@/lib/actions/user.actions";
+import { GetVisits } from "@/lib/actions/visit.actions";
 
 type Props = {
   params: {
@@ -12,7 +13,7 @@ type Props = {
 export default async function Home({ params }: Props) {
 
   const user = await GetUser(params.username)
-  const visits = visitsList;
+  const visits = await GetVisits();
 
   return (
     <main className="text-primary">
@@ -22,7 +23,7 @@ export default async function Home({ params }: Props) {
           <NewVisit user={user!}/>
         </div>
       </div>
-      <DataTable columns={columns} data={visits} />
+      <DataTable columns={columns} data={visits!} />
     </main>
   );
 }
