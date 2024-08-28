@@ -21,8 +21,8 @@ model User {
 
   visits Visit[]
 
-  created_at DateTime
-  updated_at DateTime
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Visit {
@@ -37,6 +37,6 @@ model Visit {
   userId String
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  created_at DateTime
-  updated_at DateTime
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }

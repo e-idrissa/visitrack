@@ -11,7 +11,7 @@ const SignUpPage = () => {
         </p>
       </div>
       <SignUp />
-      <div className="text center text-primary">
+      <div className="text-center text-primary">
         Already have an account ?
         <Link href="/login" className="text-[#9181f4]"> Login</Link>
       </div>

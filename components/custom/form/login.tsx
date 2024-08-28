@@ -3,6 +3,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import axios from "axios";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -15,8 +16,10 @@ import {
 import { Input } from "@/components/ui/input";
 import { LoginFormSchema } from "@/lib/db/schemas";
 import { Lock, User } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 export function Login() {
+  const router  = useRouter()
   const form = useForm<z.infer<typeof LoginFormSchema>>({
     resolver: zodResolver(LoginFormSchema),
     defaultValues: {
@@ -25,8 +28,13 @@ export function Login() {
     },
   });
 
-  function onSubmit(data: z.infer<typeof LoginFormSchema>) {
-    console.log(data);
+  async function onSubmit(data: z.infer<typeof LoginFormSchema>) {
+    try {
+      const res = await axios.post("api/users", data)
+      if (res.status === 200) router.push(`/${res.data.username}`)
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   const { isValid, isSubmitting } = form.formState;

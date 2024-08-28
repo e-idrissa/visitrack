@@ -37,7 +37,7 @@ export default function AuthLayout({
             alt="photo"
             width={40}
             height={40}
-            className="absolute bottom-80 lg:left-56 left-[3.5rem]"
+            className="absolute bottom-80 lg:left-[14.5rem] left-[3.5rem]"
           />
         </div>
       </div>
