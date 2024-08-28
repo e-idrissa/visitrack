@@ -1,14 +1,23 @@
 import Insight from "@/components/custom/insight";
 import NavList from "@/components/custom/nav-list";
 import { User } from "@/components/custom/user";
+import { GetUser } from "@/lib/actions/user.actions";
 import { Activity, ChartNoAxesColumn } from "lucide-react";
 import Image from "next/image";
+import { redirect } from "next/navigation";
 
-export default function RootLayout({
-  children,
-}: {
+type Props = {
   children: React.ReactNode;
-}) {
+  params: { username: string };
+}
+
+export default async function Layout({ children, params }: Props) {
+  const username = params.username
+  const user = await GetUser(username)
+  console.log(user)
+  
+  if (!user || user.isLogged === false) return redirect("/login")
+
   const insights = [
     { label: "yesterday's Visits", count: 123, icon: Activity },
     { label: "Average Visits", count: 123, icon: ChartNoAxesColumn },

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { poppins } from "@/lib/fonts";
+import { Toaster } from "@/components/ui/sonner";
 
 export const metadata: Metadata = {
   title: "VisiTrack",
@@ -14,7 +15,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={poppins.className}>{children}</body>
+      <body className={poppins.className}>
+        {children}
+        <Toaster />
+      </body>
     </html>
   );
 }

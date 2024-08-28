@@ -16,10 +16,11 @@ import {
 import { Input } from "@/components/ui/input";
 import { LoginFormSchema } from "@/lib/db/schemas";
 import { Lock, User } from "lucide-react";
+import { toast } from "sonner"
 import { useRouter } from "next/navigation";
 
 export function Login() {
-  const router  = useRouter()
+  const router = useRouter();
   const form = useForm<z.infer<typeof LoginFormSchema>>({
     resolver: zodResolver(LoginFormSchema),
     defaultValues: {
@@ -30,10 +31,21 @@ export function Login() {
 
   async function onSubmit(data: z.infer<typeof LoginFormSchema>) {
     try {
-      const res = await axios.post("api/users", data)
-      if (res.status === 200) router.push(`/${res.data.username}`)
+      const res = await axios.post(`api/users/${data.username}`, data);
+      if (res.status === 200) {
+        toast("Logged in successfully.")
+        router.push(`/${res.data.username}`)
+      };
+      if (res.status === 404) {
+        toast("User Not Found")
+        router.refresh()
+      };
+      if (res.status === 401) {
+        toast("Incorrect Password")
+        router.refresh()
+      };
     } catch (error) {
-      console.log(error)
+      router.push("login");
     }
   }
 

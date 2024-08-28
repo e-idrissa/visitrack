@@ -18,6 +18,7 @@ model User {
   id       String @unique @default(uuid())
   username String @unique
   pwd      String @unique
+  isLogged Boolean @default(true)
 
   visits Visit[]
 

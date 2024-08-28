@@ -15,8 +15,11 @@ import {
 import { Input } from "@/components/ui/input";
 import { LoginFormSchema } from "@/lib/db/schemas";
 import { Lock, User } from "lucide-react";
+import axios from "axios";
+import { useRouter } from "next/navigation";
 
 export function SignUp() {
+  const router = useRouter();
   const form = useForm<z.infer<typeof LoginFormSchema>>({
     resolver: zodResolver(LoginFormSchema),
     defaultValues: {
@@ -25,8 +28,13 @@ export function SignUp() {
     },
   });
 
-  function onSubmit(data: z.infer<typeof LoginFormSchema>) {
-    console.log(data);
+  async function onSubmit(data: z.infer<typeof LoginFormSchema>) {
+    try {
+      const res = await axios.post("api/users", data);
+      if (res.status === 200) router.push(`/${res.data.username}`);
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   const { isValid, isSubmitting } = form.formState;
@@ -69,7 +77,7 @@ export function SignUp() {
           )}
         />
         <Button type="submit" disabled={!isValid || isSubmitting}>
-          {isSubmitting ? "Logging in..." : "Login Now"}
+          {isSubmitting ? "Signing up..." : "Sign Up"}
         </Button>
       </form>
     </Form>
