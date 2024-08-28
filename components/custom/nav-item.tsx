@@ -13,8 +13,13 @@ type Props = {
 const NavItem = ({ label, href, id }: Props) => {
   const pathname = usePathname();
 
+  console.log(pathname)
+  console.log(id)
+
   const isActive =
     (pathname.includes(id) && id.length > 1) || pathname === id;
+
+    console.log(isActive)
 
   return (
     <Link

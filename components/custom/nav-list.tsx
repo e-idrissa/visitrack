@@ -5,15 +5,15 @@ type Props = {
 }
 
 const navigation = [
-  { label: "Home", href: "/" },
-  { label: "All Visits", href: "/all" },
-  { label: "About Us", href: "/about" },
+  { label: "Home", href: "/", id: "home" },
+  { label: "All Visits", href: "/all", id: "all" },
+  { label: "About Us", href: "/about", id: "about" },
 ];
 
 const NavList = ({ username }: Props) => {
   return <div className="flex items-center gap-x-4">
-    {navigation.map(({ label, href }) => (
-        <NavItem key={href} label={label} href={`/${username}${href}`} id={href}/>
+    {navigation.map(({ label, href, id }) => (
+        <NavItem key={href} label={label} href={`/${username}${href}`} id={id}/>
     ))}
   </div>;
 };
