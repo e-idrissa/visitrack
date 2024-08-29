@@ -23,12 +23,16 @@ import { Input } from "@/components/ui/input";
 import { EditVisitFormSchema } from "@/lib/db/schemas";
 import { Visit } from "@prisma/client";
 import { Label } from "@/components/ui/label";
+import { toast } from "sonner";
+import axios from "axios";
+import { useRouter } from "next/navigation";
 
 type Props = {
   visit: Visit;
 };
 
 export function EditVisitForm({ visit }: Props) {
+  const router = useRouter();
   const form = useForm<z.infer<typeof EditVisitFormSchema>>({
     resolver: zodResolver(EditVisitFormSchema),
     defaultValues: {
@@ -36,15 +40,34 @@ export function EditVisitForm({ visit }: Props) {
       lastname: visit.lastname,
       reason: visit.reason,
       status: visit.status ? "inProgress" : "ended",
-      startingHour: visit.entering_at.getHours(),
-      startingMin: visit.entering_at.getMinutes(),
-      endingHour: visit.leaving_at!.getHours(),
-      endingMin: visit.leaving_at!.getMinutes(),
+      startingHour: visit.entering_at.getHours().toString(),
+      startingMin: visit.entering_at.getMinutes().toString(),
+      endingHour: visit.leaving_at
+        ? visit.leaving_at.getHours().toString()
+        : undefined,
+      endingMin: visit.leaving_at
+        ? visit.leaving_at.getMinutes().toString()
+        : undefined,
     },
   });
 
-  function onSubmit(data: z.infer<typeof EditVisitFormSchema>) {
-    console.log(data);
+  console.log(visit);
+
+  async function onSubmit(data: z.infer<typeof EditVisitFormSchema>) {
+    try {
+      const res = await axios.patch(`/api/visits/${visit.id}`, {
+        data,
+        userId: visit.userId,
+        visitId: visit.id
+      });
+      if (res.status === 200) {
+        toast.success("Visit updated successfully");
+        router.refresh();
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error("Something went wrong");
+    }
   }
 
   const { isValid, isSubmitting } = form.formState;
@@ -189,6 +212,8 @@ export function EditVisitForm({ visit }: Props) {
                           {...field}
                           className="border-transparent text-center w-[3.2rem] px-0 pl-3 pr-1"
                           type="number"
+                          min={form.getValues("startingHour")}
+                          max={23}
                         />
                       </FormControl>
                       <FormMessage />
@@ -207,6 +232,8 @@ export function EditVisitForm({ visit }: Props) {
                           {...field}
                           className="border-transparent text-center w-[3.2rem] px-0 pl-3 pr-1"
                           type="number"
+                          min={0}
+                          max={59}
                         />
                       </FormControl>
                       <FormMessage />

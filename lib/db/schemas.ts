@@ -32,8 +32,8 @@ export const EditVisitFormSchema = z.object({
     message: "Reason must be at least 3 characters.",
   }),
   status: z.enum(["inProgress","ended"]),
-  startingHour: z.number(),
-  startingMin: z.number(),
-  endingHour: z.number(),
-  endingMin: z.number(),
+  startingHour: z.string(),
+  startingMin: z.string(),
+  endingHour: z.string(),
+  endingMin: z.string(),
 });

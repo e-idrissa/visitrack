@@ -7,19 +7,12 @@ import Link from "next/link";
 type Props = {
   label: string;
   href: string;
-  id: string;
 };
 
-const NavItem = ({ label, href, id }: Props) => {
+const NavItem = ({ label, href }: Props) => {
   const pathname = usePathname();
 
-  console.log(pathname)
-  console.log(id)
-
-  const isActive =
-    (pathname.includes(id) && id.length > 1) || pathname === id;
-
-    console.log(isActive)
+  const isActive = pathname === href;
 
   return (
     <Link
