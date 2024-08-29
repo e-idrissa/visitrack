@@ -3,10 +3,10 @@
 import { ColumnDef } from "@tanstack/react-table";
 import {
   CheckCircleIcon,
-  Edit3,
   MoreHorizontal,
   ArrowUpDown,
   Trash2,
+  Loader2,
 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -23,6 +23,11 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { EditVisit } from "../edit-visit";
 import { cn } from "@/lib/utils";
 import { Visit } from "@prisma/client";
+import { GetVisit } from "@/lib/actions/visit.actions";
+import { toast } from "sonner";
+import axios from "axios";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 export const columns: ColumnDef<Visit>[] = [
   {
@@ -103,9 +108,7 @@ export const columns: ColumnDef<Visit>[] = [
       const hour = new Date(row.getValue("entering_at")).getHours();
       const min = new Date(row.getValue("entering_at")).getMinutes();
       const formatted = `${hour}:${min}`;
-      return (
-        <div className="text-center font-medium">{formatted}</div>
-      );
+      return <div className="text-center font-medium">{formatted}</div>;
     },
     size: 70,
   },
@@ -117,48 +120,83 @@ export const columns: ColumnDef<Visit>[] = [
       const min = new Date(row.getValue("leaving_at")).getMinutes();
       const formatted = `${hour}:${min}`;
       return (
-        <div className="text-center font-medium">{row.getValue("leaving_at") === null ? "--:--" : formatted}</div>
+        <div className="text-center font-medium">
+          {row.getValue("leaving_at") === null ? "--:--" : formatted}
+        </div>
       );
     },
     size: 70,
   },
   {
     id: "edit",
-    cell: ({ row }) => {
-      const payment = row.original;
-
-      return (
-        <div className="flex justify-end">
-          <EditVisit visit={row.original}/>
-        </div>
-      );
-    },
+    cell: ({ row }) => (
+      <div className="flex justify-end">
+        <EditVisit visit={row.original} />
+      </div>
+    ),
     maxSize: 20,
   },
   {
     id: "actions",
     cell: ({ row }) => {
-      const payment = row.original;
+      const visit = row.original;
+      const router = useRouter()
+      const [isLoading, setIsLoading] = useState(false)
+
+      const deleteVisit = async () => {
+        const data = row.original
+        setIsLoading(true)
+        try {
+          const res = await axios.delete(`/api/visits/${visit.id}`, { data })
+          if (res.status === 200) {
+            setIsLoading(false)
+            toast.success("Visit deleted successfully");
+            router.refresh()
+          }
+        } catch (error) {
+          console.log(error);
+          setIsLoading(false)
+          toast.error("Something went wrong");
+        }
+      }
+
+      const endVisit = async () => {
+        const data = row.original
+        setIsLoading(true)
+        try {
+          const res = await axios.patch(`/api/visits/${visit.id}/end`, { data })
+          if (res.status === 200) {
+            setIsLoading(false)
+            toast.success("Visit ended successfully");
+            router.refresh()
+          }
+        } catch (error) {
+          console.log(error);
+          setIsLoading(false)
+          toast.error("Something went wrong");
+        }
+      }
 
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="h-8 w-8 p-0">
+            <Button variant="ghost" className="h-8 w-8 p-0" disabled={isLoading}>
               <span className="sr-only">Open menu</span>
-              <MoreHorizontal className="h-4 w-4" />
+              {!isLoading && <MoreHorizontal className="h-4 w-4" />}
+              {isLoading && <Loader2 className="h-4 w-4 animate-spin" />}
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuItem>
-              <Button variant="end">
+              <Button variant="end" onClick={endVisit}>
                 <CheckCircleIcon className="size-4 mr-1" />
                 End
               </Button>
             </DropdownMenuItem>
             <DropdownMenuItem>
-              <Button variant="destructive">
+              <Button variant="destructive" onClick={deleteVisit}>
                 <Trash2 className="size-4 mr-1" />
                 Delete
               </Button>

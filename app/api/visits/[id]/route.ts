@@ -62,3 +62,41 @@ export async function PATCH(req: Request) {
     return new NextResponse("Internal Server Error", { status: 500 });
   }
 }
+
+export async function DELETE(req: Request) {
+  try {
+    const values = await req.json();
+    console.log(values)
+
+    const user = await db.user.findUnique({
+      where: {
+        id: values.userId,
+      },
+    })
+
+    if (!user) {
+      return new NextResponse("Unauthorized", { status: 401 });
+    }
+
+    const visit = await db.visit.findUnique({
+      where: {
+        id: values.id,
+      },
+    });
+
+    if (!visit) {
+      return new NextResponse("Not Found", { status: 404 });
+    }
+
+    const result = await db.visit.delete({
+      where: {
+        id: visit.id,
+      },
+    });
+
+    return NextResponse.json(result)
+  } catch (error) {
+    console.log(["DELETE VISIT"], error)
+    return new NextResponse("Internal Server Error", { status: 500 })
+  }
+}

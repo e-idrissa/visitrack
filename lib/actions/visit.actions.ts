@@ -30,3 +30,11 @@ export async function GetDailyVisits() {
     console.log("Error fetching visits", error);
   }
 }
+
+export async function GetVisit(id: string) {
+  const visit = await db.visit.findUnique({
+    where: { id },
+  });
+
+  return visit
+}
