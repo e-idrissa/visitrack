@@ -4,7 +4,6 @@ import { NextResponse } from "next/server";
 export async function PATCH(req: Request) {
   try {
     const values = await req.json();
-    console.log(values)
     const user = await db.user.findUnique({
       where: {
         id: values.data.userId,

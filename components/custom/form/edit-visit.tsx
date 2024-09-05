@@ -51,8 +51,6 @@ export function EditVisitForm({ visit }: Props) {
     },
   });
 
-  console.log(visit);
-
   async function onSubmit(data: z.infer<typeof EditVisitFormSchema>) {
     try {
       const res = await axios.patch(`/api/visits/${visit.id}`, {
