@@ -13,7 +13,7 @@ export const metadata: Metadata = {
     siteName: "VisiTrack",
     images: [
       {
-        url: "https://visitrack.vercel.app/public/images/og.png", // Replace with the URL to your OG image
+        url: "https://visitrack.vercel.app/public/og.png", // Replace with the URL to your OG image
         width: 842,
         height: 595,
         alt: "VisiTrack Open Graph Image",
