@@ -30,6 +30,7 @@ export async function PATCH(req: Request) {
       },
       data: {
         status: false,
+        leaving_at: new Date(),
       },
     });
 
