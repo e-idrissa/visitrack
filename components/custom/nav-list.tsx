@@ -8,7 +8,6 @@ const NavList = ({ username }: Props) => {
   const navigation = [
     { label: "Home", href: `/${username}` },
     { label: "All Visits", href: `/${username}/all` },
-    { label: "About Us", href: `/${username}/about` },
   ];
 
   return <div className="flex items-center gap-x-4">
