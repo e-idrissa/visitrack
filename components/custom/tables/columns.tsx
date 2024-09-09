@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Checkbox } from "@/components/ui/checkbox";
 import { EditVisit } from "../edit-visit";
-import { cn } from "@/lib/utils";
+import { cn, dateFormat } from "@/lib/utils";
 import { Visit } from "@prisma/client";
 import RowActions from "./row-actions";
 
@@ -87,27 +87,19 @@ export const columns: ColumnDef<Visit>[] = [
     accessorKey: "entering_at",
     header: () => <div className="text-center">Enter At</div>,
     cell: ({ row }) => {
-      const hour = new Date(row.getValue("entering_at")).getHours();
-      const min = new Date(row.getValue("entering_at")).getMinutes();
-      const formatted = `${hour}:${min}`;
+      const formatted = dateFormat(row.getValue("entering_at"));
       return <div className="text-center font-medium">{formatted}</div>;
     },
-    size: 70,
+    size: 150,
   },
   {
     accessorKey: "leaving_at",
     header: () => <div className="text-center">Exit At</div>,
     cell: ({ row }) => {
-      const hour = new Date(row.getValue("leaving_at")).getHours();
-      const min = new Date(row.getValue("leaving_at")).getMinutes();
-      const formatted = `${hour}:${min}`;
-      return (
-        <div className="text-center font-medium">
-          {row.getValue("leaving_at") === null ? "--:--" : formatted}
-        </div>
-      );
+      const formatted = dateFormat(row.getValue("leaving_at"));
+      return <div className="text-center font-medium">{formatted}</div>;
     },
-    size: 70,
+    size: 150,
   },
   {
     id: "edit",
