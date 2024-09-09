@@ -17,8 +17,8 @@ const NavItem = ({ label, href }: Props) => {
   return (
     <Link
       className={cn(
-        "text-white/80 font-medium py-1 px-3 rounded-md hover:bg-white/20 transition-all",
-        isActive && "bg-white/20 text-white"
+        "text-white font-medium py-1 px-3 rounded-md hover:bg-white/20 transition-all",
+        isActive && "bg-white/20"
       )}
       href={href}
     >

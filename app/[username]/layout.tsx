@@ -36,7 +36,7 @@ export default async function Layout({ children, params }: Props) {
             </div>
           </div>
           <div className="font-bold text-4xl pt-10 pb-8 flex items-center">
-            <span className="text-white">Welcome back</span>
+            <span className="text-white">Welcome back, @{user.username}</span>
             <span>👋</span>
           </div>
           <div className="pb-56 flex gap-x-3">
