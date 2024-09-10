@@ -18,6 +18,7 @@ import { Lock, User } from "lucide-react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
+import { useAuth } from "@/components/context/auth";
 
 export function SignUp() {
   const router = useRouter();
@@ -30,20 +31,14 @@ export function SignUp() {
     },
   });
 
+  const { signup, user } = useAuth()
+
   async function onSubmit(data: z.infer<typeof SignupFormSchema>) {
     try {
-      const res = await axios.post("api/users", data);
-      if (res.status === 200) {
-        toast.success("Logged in successfully.")
-        router.push(`/${res.data.username}`)
-      };
-      if (res.status === 307) {
-        toast.success("Logged in successfully.")
-        console.log("[RES.DATA]", res.data)
-        router.refresh()
-      };
+      await signup(data)
     } catch (error) {
-      console.log(error);
+      toast.error("Something went wrong")
+      router.push("/sign-up");
     }
   }
 

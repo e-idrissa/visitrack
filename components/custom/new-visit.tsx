@@ -8,12 +8,12 @@ import {
 } from "@/components/ui/dialog"
 import { NewVisitForm } from "./form/new-visit"
 import { User } from "@prisma/client"
+import { useAuth } from "../context/auth"
 
-type Props = {
-  user: User
-}
+export function NewVisit() {
 
-export function NewVisit({ user }: Props) {
+  const { user } = useAuth();
+
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -23,7 +23,7 @@ export function NewVisit({ user }: Props) {
         <DialogHeader>
           <DialogTitle>Add Visit</DialogTitle>
         </DialogHeader>
-        <NewVisitForm username={user.username}/>
+        <NewVisitForm username={user!}/>
       </DialogContent>
     </Dialog>
   )
