@@ -39,7 +39,7 @@ export async function GetVisit(id: string) {
   return visit
 }
 
-export async function GetYesterdaysVisits() {
+export async function GetYesterdaysVisits(): Promise<number> {
   try {
     const yesterday = subDays(new Date(), 1);
     const formattedYesterdayStart = startOfDay(yesterday);
@@ -57,6 +57,7 @@ export async function GetYesterdaysVisits() {
     return visits.length; // Returning the number of visits
   } catch (error) {
     console.log("Error fetching visits", error);
+    throw error;
   }
 }
 

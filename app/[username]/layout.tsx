@@ -22,7 +22,7 @@ export default async function Layout({ children, params }: Props) {
   const averageVisits = await GetAverageDailyVisits();
 
   const insights = [
-    { label: "yesterday's Visits", count: yesterdaysVisits!, icon: Activity },
+    { label: "yesterday's Visits", count: yesterdaysVisits, icon: Activity },
     { label: "Average Visits", count: averageVisits, icon: ChartNoAxesColumn },
   ];
   return (

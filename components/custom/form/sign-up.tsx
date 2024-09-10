@@ -13,25 +13,35 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { LoginFormSchema } from "@/lib/db/schemas";
+import { SignupFormSchema } from "@/lib/db/schemas";
 import { Lock, User } from "lucide-react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 export function SignUp() {
   const router = useRouter();
-  const form = useForm<z.infer<typeof LoginFormSchema>>({
-    resolver: zodResolver(LoginFormSchema),
+  const form = useForm<z.infer<typeof SignupFormSchema>>({
+    resolver: zodResolver(SignupFormSchema),
     defaultValues: {
       username: "",
       pwd: "",
+      confPwd: "",
     },
   });
 
-  async function onSubmit(data: z.infer<typeof LoginFormSchema>) {
+  async function onSubmit(data: z.infer<typeof SignupFormSchema>) {
     try {
       const res = await axios.post("api/users", data);
-      if (res.status === 200) router.push(`/${res.data.username}`);
+      if (res.status === 200) {
+        toast.success("Logged in successfully.")
+        router.push(`/${res.data.username}`)
+      };
+      if (res.status === 307) {
+        toast.success("Logged in successfully.")
+        console.log("[RES.DATA]", res.data)
+        router.refresh()
+      };
     } catch (error) {
       console.log(error);
     }
@@ -67,6 +77,24 @@ export function SignUp() {
               <FormControl>
                 <Input
                   placeholder="Password"
+                  {...field}
+                  type="password"
+                  className="pl-10"
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="confPwd"
+          render={({ field }) => (
+            <FormItem className="w-full relative">
+              <Lock className="absolute top-4 left-3 size-6 text-muted-foreground" />
+              <FormControl>
+                <Input
+                  placeholder="Confirm Password"
                   {...field}
                   type="password"
                   className="pl-10"

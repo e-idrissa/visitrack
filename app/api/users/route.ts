@@ -10,6 +10,10 @@ export async function POST(req: Request) {
     const saltRound = 10
     const cryptPwd = await bcrypt.hash(values.pwd, saltRound);
 
+    if (values.pwd !== values.confPwd) {
+      return new NextResponse("Passwords don't match", { status: 307 });
+    }
+
     const user = await db.user.create({
         data: {
             username: values.username,
