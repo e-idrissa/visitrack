@@ -2,6 +2,7 @@ import Insight from "@/components/custom/insight";
 import NavList from "@/components/custom/nav-list";
 import { User } from "@/components/custom/user";
 import { GetUser } from "@/lib/actions/user.actions";
+import { GetAverageDailyVisits, GetYesterdaysVisits } from "@/lib/actions/visit.actions";
 import { Activity, ChartNoAxesColumn } from "lucide-react";
 import Image from "next/image";
 import { redirect } from "next/navigation";
@@ -17,9 +18,12 @@ export default async function Layout({ children, params }: Props) {
   
   if (!user || user.isLogged === false) return redirect("/login")
 
+  const yesterdaysVisits = await GetYesterdaysVisits();
+  const averageVisits = await GetAverageDailyVisits();
+
   const insights = [
-    { label: "yesterday's Visits", count: 123, icon: Activity },
-    { label: "Average Visits", count: 123, icon: ChartNoAxesColumn },
+    { label: "yesterday's Visits", count: yesterdaysVisits!, icon: Activity },
+    { label: "Average Visits", count: averageVisits, icon: ChartNoAxesColumn },
   ];
   return (
     <div className="w-full h-full relative">
