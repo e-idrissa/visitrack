@@ -18,6 +18,7 @@ import { LoginFormSchema } from "@/lib/db/schemas";
 import { Lock, User } from "lucide-react";
 import { toast } from "sonner"
 import { useRouter } from "next/navigation";
+import { useAuth } from "@/components/context/auth";
 
 export function Login() {
   const router = useRouter();
@@ -29,23 +30,13 @@ export function Login() {
     },
   });
 
+  const { login, user } = useAuth();
+
   async function onSubmit(data: z.infer<typeof LoginFormSchema>) {
     try {
-      const res = await axios.post(`api/users/${data.username}`, data);
-      if (res.status === 200) {
-        toast.success("Logged in successfully.")
-        router.push(`/${res.data.username}`)
-      };
-      if (res.status === 404) {
-        toast.error("User Not Found")
-        router.refresh()
-      };
-      if (res.status === 401) {
-        toast.error("Incorrect Password")
-        router.refresh()
-      };
+      await login(data);
     } catch (error) {
-      router.push("login");
+      toast.error("Something went wrong")
     }
   }
 

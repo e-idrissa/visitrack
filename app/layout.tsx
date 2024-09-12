@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { poppins } from "@/lib/fonts";
 import { Toaster } from "@/components/ui/sonner";
+import { AuthProvider, useAuth } from "@/components/context/auth";
 
 export const metadata: Metadata = {
   title: "VisiTrack",
@@ -32,8 +33,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={poppins.className}>
-        {children}
-        <Toaster />
+        <AuthProvider>
+          {children}
+          <Toaster />
+        </AuthProvider>
       </body>
     </html>
   );

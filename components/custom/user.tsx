@@ -20,7 +20,9 @@ export function User({ user }: Props) {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
 
-  const logout = async () => {
+  const { logout, user } = useAuth()
+
+  const logoutUser = async () => {
     try {
       setIsLoading(true);
       const res = await axios.patch(`api/users/${user.username}/logout`, user);
