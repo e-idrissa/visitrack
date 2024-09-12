@@ -1,6 +1,3 @@
-"use client"
-
-import { useAuth } from "@/components/context/auth";
 import NavList from "@/components/custom/nav-list";
 import { User } from "@/components/custom/user";
 import { Activity, ChartNoAxesColumn } from "lucide-react";
@@ -9,15 +6,19 @@ import { useEffect, useState } from "react";
 import { redirect, useRouter } from "next/navigation";
 import { GetAverageDailyVisits, GetYesterdaysVisits } from "@/lib/actions/visit.actions";
 import Insights from "@/components/custom/cards";
+import { GetUser } from "@/lib/actions/user.actions";
 
 type Props = {
   children: React.ReactNode;
+  params: {
+    username: string;
+  }
 };
 
-export default function Layout({ children }: Props) {
-  const { user } = useAuth(); // Get the user and authentication actions
-
-  if(!user) redirect("/login")
+export default async function Layout({ children, params }: Props) {
+  const username = params.username
+  const user = await GetUser(username)
+  if(!user) redirect("/sign-in")
 
   return (
     <div className="w-full h-full relative">
@@ -29,12 +30,12 @@ export default function Layout({ children }: Props) {
               <span className="font-bold text-white text-xl">VisiTrack</span>
             </div>
             <div className="flex items-center gap-x-4">
-              <NavList username={user!} />
+              <NavList username={username!} />
               <User user={user}/>
             </div>
           </div>
           <div className="font-bold text-4xl pt-10 pb-8 flex items-center">
-            <span className="text-white">Welcome back, @{user}</span>
+            <span className="text-white">Welcome back, @{username}</span>
             <span>👋</span>
           </div>
           <Insights />

@@ -18,9 +18,8 @@ import { LoginFormSchema } from "@/lib/db/schemas";
 import { Lock, User } from "lucide-react";
 import { toast } from "sonner"
 import { useRouter } from "next/navigation";
-import { useAuth } from "@/components/context/auth";
 
-export function Login() {
+export function SignIn() {
   const router = useRouter();
   const form = useForm<z.infer<typeof LoginFormSchema>>({
     resolver: zodResolver(LoginFormSchema),
@@ -30,15 +29,17 @@ export function Login() {
     },
   });
 
-  const { login, user } = useAuth();
-
   async function onSubmit(data: z.infer<typeof LoginFormSchema>) {
     try {
-      await login(data);
+      const res = await axios.post(`/api/users/${data.username}`, data);
+      toast.success("Signed In successfully");
+      router.push(`/${res.data.username}`);
     } catch (error) {
-      toast.error("Something went wrong")
+      console.error("Login error", error);
+      toast.success("Login error");
+      router.refresh();
     }
-  }
+  };
 
   const { isValid, isSubmitting } = form.formState;
 
@@ -55,7 +56,7 @@ export function Login() {
             <FormItem className="w-full relative">
               <User className="absolute top-4 left-3 size-6 text-muted-foreground" />
               <FormControl>
-                <Input placeholder="Username" {...field} className="pl-10" />
+                <Input placeholder="Username" {...field} className="pl-10" autoComplete="off"/>
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -80,7 +81,7 @@ export function Login() {
           )}
         />
         <Button type="submit" disabled={!isValid || isSubmitting}>
-          {isSubmitting ? "Logging in..." : "Login Now"}
+          {isSubmitting ? "Signing In..." : "Sign In"}
         </Button>
       </form>
     </Form>

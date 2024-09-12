@@ -3,7 +3,8 @@ import { columns } from "@/components/custom/tables/columns";
 import { DataTable } from "@/components/custom/tables/data-table";
 import { GetDailyVisits } from "@/lib/actions/visit.actions";
 
-export default async function Home() {
+export default async function Home({ params }: { params: { username: string } }) {
+  const username = params.username
   const dailyVisits = await GetDailyVisits();
 
   return (
@@ -11,7 +12,7 @@ export default async function Home() {
       <div className="flex items-center justify-between mb-2">
         <h2 className="text-xl font-medium">Your daily Visits</h2>
         <div className="flex items-center gap-x-4">
-          <NewVisit />
+          <NewVisit user={username}/>
         </div>
       </div>
       <DataTable columns={columns} data={dailyVisits!} />

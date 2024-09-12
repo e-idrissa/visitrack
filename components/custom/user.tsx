@@ -20,9 +20,7 @@ export function User({ user }: Props) {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
 
-  const { logout, user } = useAuth()
-
-  const logoutUser = async () => {
+  const signoutUser = async () => {
     try {
       setIsLoading(true);
       const res = await axios.patch(`api/users/${user.username}/logout`, user);
@@ -53,14 +51,14 @@ export function User({ user }: Props) {
         <Button
           className="flex items-center py-1 rounded bg-slate-50 hover:bg-slate-100 px-2 text-sm w-full"
           variant="ghost"
-          onClick={logout}
+          onClick={signoutUser}
         >
           {!isLoading ? (
             <LogOut className="size-4 text-primary mr-2" />
           ) : (
             <Loader2 className="size-4 animate-spin text-primary mr-2" />
           )}
-          Logout
+          Sign out
         </Button>
       </PopoverContent>
     </Popover>

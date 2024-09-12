@@ -13,7 +13,7 @@ const SignUpPage = () => {
       <SignUp />
       <div className="text-center text-primary">
         Already have an account ?
-        <Link href="/login" className="text-[#9181f4]"> Login</Link>
+        <Link href="/sign-in" className="text-[#9181f4]"> Sign in</Link>
       </div>
     </div>
   );

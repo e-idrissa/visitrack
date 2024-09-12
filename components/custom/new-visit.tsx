@@ -8,11 +8,11 @@ import {
 } from "@/components/ui/dialog"
 import { NewVisitForm } from "./form/new-visit"
 import { User } from "@prisma/client"
-import { useAuth } from "../context/auth"
 
-export function NewVisit() {
-
-  const { user } = useAuth();
+type Props = {
+  user: string
+}
+export function NewVisit({ user }: Props) {
 
   return (
     <Dialog>
