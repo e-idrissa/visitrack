@@ -2,6 +2,7 @@ import { db } from "@/lib/db/prisma";
 import { NextResponse } from "next/server";
 
 import bcrypt from "bcrypt";
+import { HashPwd } from "@/lib/utils";
 
 export async function POST(req: Request) {
   try {
@@ -11,8 +12,7 @@ export async function POST(req: Request) {
       return new NextResponse("Passwords don't match", { status: 307 });
     }
     
-    const saltRound = 10
-    const cryptPwd = await bcrypt.hash(values.pwd, saltRound);
+    const cryptPwd = await HashPwd(values.pwd)
 
     const user = await db.user.create({
         data: {

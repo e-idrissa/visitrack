@@ -14,22 +14,22 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { LoginFormSchema } from "@/lib/db/schemas";
+import { SigninFormSchema } from "@/lib/db/schemas";
 import { Lock, User } from "lucide-react";
 import { toast } from "sonner"
 import { useRouter } from "next/navigation";
 
 export function SignIn() {
   const router = useRouter();
-  const form = useForm<z.infer<typeof LoginFormSchema>>({
-    resolver: zodResolver(LoginFormSchema),
+  const form = useForm<z.infer<typeof SigninFormSchema>>({
+    resolver: zodResolver(SigninFormSchema),
     defaultValues: {
       username: "",
       pwd: "",
     },
   });
 
-  async function onSubmit(data: z.infer<typeof LoginFormSchema>) {
+  async function onSubmit(data: z.infer<typeof SigninFormSchema>) {
     try {
       const res = await axios.post(`/api/users/${data.username}`, data);
       toast.success("Signed In successfully");

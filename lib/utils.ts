@@ -1,5 +1,6 @@
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
+import bcrypt from "bcrypt"
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -15,23 +16,8 @@ export const dateFormat = (date: string) => {
   return `${day}, ${hours}:${minutes}`;
 };
 
-export function UserMessage(createdAt: Date): string {
-  const now = new Date();
-  const createdDate = new Date(createdAt);
-  const diffInMilliseconds = now.getTime() - createdDate.getTime();
+export async function HashPwd(pwd: string): Promise<string> {
+  const saltRound = 10
 
-  // Convert milliseconds to days
-  const diffInDays = Math.ceil(diffInMilliseconds / (1000 * 60 * 60 * 24));
-
-  if (diffInDays < 7) {
-    return `Since ${diffInDays} day${diffInDays !== 1 ? "s" : ""}`;
-  } else if (diffInDays >= 7 && diffInDays < 30) {
-    const diffInWeeks = Math.ceil(diffInDays / 7);
-    return `Since ${diffInWeeks} week${diffInWeeks !== 1 ? "s" : ""}`;
-  } else if (diffInDays >= 30 && diffInDays < 365) {
-    const diffInMonths = Math.ceil(diffInDays / 30);
-    return `Since ${diffInMonths} week${diffInMonths !== 1 ? "s" : ""}`;
-  } else {
-    return "Since years";
-  }
+  return bcrypt.hashSync(pwd, saltRound)
 }
